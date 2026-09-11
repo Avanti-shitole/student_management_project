@@ -11,6 +11,11 @@ def student_list(request):
     return render(request, 'students/student_list.html')
 
 
+# Show student form
+def student_form(request):
+    return render(request, 'students/student_form.html')
+
+
 
 #  user registration
 def register(request):
