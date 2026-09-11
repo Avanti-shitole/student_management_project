@@ -34,6 +34,22 @@ def student_form(request):
         email = request.POST['email']
         age = request.POST['age']
 
+        if not name or not email or not age:
+            return render(
+                request,
+                'students/student_form.html',
+                {'error': 'All fields are required.'}
+            )
+
+        age = int(age)
+
+        if age < 1 or age > 100:
+            return render(
+                request,
+                'students/student_form.html',
+                {'error': 'Please enter a valid age between 1 and 100.'}
+            )
+
         Student.objects.create(
             name=name,
             email=email,
