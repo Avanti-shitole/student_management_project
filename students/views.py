@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib import messages
 from .models import Student
+from django.shortcuts import render, redirect, get_object_or_404
 
 
 
@@ -33,6 +34,24 @@ def student_form(request):
         return redirect('student_list')
 
     return render(request, 'students/student_form.html')
+
+# Edit student details
+def edit_student(request, id):
+    student = get_object_or_404(Student, id=id)
+
+    if request.method == 'POST':
+        student.name = request.POST['name']
+        student.email = request.POST['email']
+        student.age = request.POST['age']
+        student.save()
+
+        return redirect('student_list')
+
+    return render(
+        request,
+        'students/edit_student.html',
+        {'student': student}
+    )
 
 
 

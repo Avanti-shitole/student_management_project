@@ -12,5 +12,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     # URL for student form
     path('add/', views.student_form, name='student_form'),
+    # URL for editing a student
+    path('edit/<int:id>/', views.edit_student, name='edit_student'),
 
 ]

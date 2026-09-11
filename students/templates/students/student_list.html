@@ -15,7 +15,11 @@
         Name: {{ student.name }} |
         Email: {{ student.email }} |
         Age: {{ student.age }}
+        <a href="{% url 'edit_student' student.id %}">Edit</a>
     </p>
+
+    
+
 {% empty %}
     <p>No students found.</p>
 {% endfor %}
