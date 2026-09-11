@@ -2,12 +2,21 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib import messages
 from .models import Student
 from django.shortcuts import render, redirect, get_object_or_404
 
 
+@login_required
+def student_list(request):
+    students = Student.objects.all()
+    return render(
+        request,
+        'students/student_list.html',
+        {'students': students}
+    )
 
 def student_list(request):
     students = Student.objects.all()
