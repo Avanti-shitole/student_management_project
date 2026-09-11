@@ -2,7 +2,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 from django.contrib import messages
+
 
 
 def student_list(request):
@@ -43,3 +45,8 @@ def login_view(request):
             return redirect('student_list')
 
     return render(request, 'students/login.html')
+
+# user logout
+def logout_view(request):
+    logout(request)
+    return redirect('login')
