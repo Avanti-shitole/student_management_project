@@ -53,7 +53,12 @@ def edit_student(request, id):
         {'student': student}
     )
 
+# Delete student
+def delete_student(request, id):
+    student = get_object_or_404(Student, id=id)
+    student.delete()
 
+    return redirect('student_list')
 
 #  user registration
 def register(request):
