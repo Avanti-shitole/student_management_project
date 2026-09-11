@@ -8,6 +8,17 @@
     <h1>Student Management System</h1>
 
     <p>Welcome to Student List</p>
+    <h2>Students</h2>
+
+{% for student in students %}
+    <p>
+        Name: {{ student.name }} |
+        Email: {{ student.email }} |
+        Age: {{ student.age }}
+    </p>
+{% empty %}
+    <p>No students found.</p>
+{% endfor %}
     <a href="{% url 'logout' %}">Logout</a>
 
 </body>
