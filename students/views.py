@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib import messages
+from .models import Student
 
 
 
@@ -11,8 +12,21 @@ def student_list(request):
     return render(request, 'students/student_list.html')
 
 
-# Show student form
+# Add student to database
 def student_form(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        age = request.POST['age']
+
+        Student.objects.create(
+            name=name,
+            email=email,
+            age=age
+        )
+
+        return redirect('student_list')
+
     return render(request, 'students/student_form.html')
 
 
