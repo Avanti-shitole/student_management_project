@@ -1,20 +1,64 @@
+
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Register</title>
+    <title>Teacher Registration</title>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
+
 <body>
 
-<!-- Registration page -->
-    <h1>Register</h1>
-   <form method="post">
-        {% csrf_token %}
+<div class="login-container">
 
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
+    <div class="login-box">
 
-        <button type="submit">Register</button>
-    </form>
+        <h2>Teacher Registration</h2>
+
+        <p>Create an account for Student Management System</p>
+
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+
+            <label>Username</label>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                autocomplete="off"
+                value=""
+                required
+            >
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                autocomplete="new-password"
+                required
+            >
+
+            <button type="submit" class="login-btn">
+                Register
+            </button>
+
+        </form>
+
+        <div class="register-link">
+            Already have an account?
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>
-    
+```

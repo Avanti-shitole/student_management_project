@@ -14,10 +14,25 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+"""
+URL configuration for student_management_project project.
+"""
+
+
+
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
+
 
 urlpatterns = [
+    # Open Login page when root URL is opened
+    path('', lambda request: redirect('login')),
+
+    # Django Admin
     path('admin/', admin.site.urls),
-     path('students/', include('students.urls')),
+
+    # Student Management App
+    path('students/', include('students.urls')),
 ]
