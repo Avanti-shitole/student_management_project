@@ -1,35 +1,97 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Student Form</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
+
 <body>
 
-    <h1>Student Form</h1>
-    {% if error %}
-    <p>{{ error }}</p>
-    {% endif %}
+<div class="form-page">
 
-    <form method="post">
-        {% csrf_token %}
+    <div class="student-form-card">
 
-        <label>Name:</label>
-        <input type="text" name="name">
+        <h1>Add Student</h1>
+        <p class="form-subtitle">Enter student details</p>
 
-        <br><br>
+        {% if errors %}
+             <div class="error-box">
+               {% for error in errors %}
+                  <p>{{ error }}</p>
+               {% endfor %}
+             </div>
+       {% endif %}
 
-        <label>Email:</label>
-        <input type="email" name="email">
+        <form method="POST">
+            {% csrf_token %}
 
-        <br><br>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter student name"
+                    value="{{ name|default:'' }}"
+                    required
+                >
+            </div>
 
-        <label>Age:</label>
-        <input type="number" name="age" min="1" max="100">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter email address"
+                    value="{{ email|default:'' }}"
+                    required
+                >
+            </div>
 
-        <br><br>
+            <div class="form-row">
 
-        <button type="submit">Save Student</button>
-    </form>
+                <div class="form-group age-field">
+                    <label for="age">Age</label>
+                    <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        placeholder="Age"
+                        value="{{ age|default:'' }}"
+                        required
+                    >
+                </div>
+
+                <div class="form-group course-field">
+                    <label for="course">Course</label>
+                    <input
+                        type="text"
+                        id="course"
+                        name="course"
+                        placeholder="Enter course"
+                        value="{{ course|default:'' }}"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <button type="submit" class="save-button">
+                Save Student
+            </button>
+
+        </form>
+
+        <a href="{% url 'student_list' %}" class="back-link">
+            ← Back to Students
+        </a>
+
+    </div>
+
+</div>
 
 </body>
 </html>

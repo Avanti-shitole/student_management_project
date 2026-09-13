@@ -12,62 +12,98 @@ from django.shortcuts import render, redirect, get_object_or_404
 @login_required
 def student_list(request):
     students = Student.objects.all()
+
+    search = request.GET.get('search')
+
+    if search:
+        students = students.filter(name__icontains=search)
+
+    total_students = students.count()
+
     return render(
         request,
         'students/student_list.html',
-        {'students': students}
-    )
-
-def student_list(request):
-    students = Student.objects.all()
-    return render(
-        request,
-        'students/student_list.html',
-        {'students': students}
+        {
+            'students': students,
+            'total_students': total_students
+        }
     )
 
 
-# Add student to database
+@login_required
 def student_form(request):
+
     if request.method == 'POST':
-        name = request.POST['name']
-        email = request.POST['email']
-        age = request.POST['age']
 
-        if not name or not email or not age:
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        age = request.POST.get('age')
+        course = request.POST.get('course')
+
+        errors = []
+
+        # Name validation
+        if not name:
+            errors.append("Name is required.")
+
+        # Email validation
+        if not email:
+            errors.append("Email is required.")
+
+        # Age validation
+        if not age:
+            errors.append("Age is required.")
+        else:
+            try:
+                age = int(age)
+
+                if age < 1 or age > 100:
+                    errors.append("Age must be between 1 and 100.")
+
+            except ValueError:
+                errors.append("Age must be a valid number.")
+
+        # Course validation
+        if not course:
+            errors.append("Course is required.")
+
+        # If errors exist
+        if errors:
             return render(
                 request,
                 'students/student_form.html',
-                {'error': 'All fields are required.'}
+                {
+                    'errors': errors,
+                    'name': name,
+                    'email': email,
+                    'age': age,
+                    'course': course
+                }
             )
 
-        age = int(age)
-
-        if age < 1 or age > 100:
-            return render(
-                request,
-                'students/student_form.html',
-                {'error': 'Please enter a valid age between 1 and 100.'}
-            )
-
+        # Save student
         Student.objects.create(
             name=name,
             email=email,
-            age=age
+            age=age,
+            course=course
         )
 
+        # Go back to student list
         return redirect('student_list')
 
     return render(request, 'students/student_form.html')
 
 # Edit student details
+
 def edit_student(request, id):
     student = get_object_or_404(Student, id=id)
 
     if request.method == 'POST':
         student.name = request.POST['name']
-        student.email = request.POST['email']
+        student.email = request.POST['email'].lower()
         student.age = request.POST['age']
+        student.course = request.POST['course']
         student.save()
 
         return redirect('student_list')
