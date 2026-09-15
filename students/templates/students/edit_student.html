@@ -18,6 +18,15 @@
         <h2>Edit Student</h2>
         <p class="subtitle">Update student information</p>
 
+
+        {% if errors %}
+          <div class="error-message">
+             {% for error in errors %}
+                 <p>{{ error }}</p>
+        {% endfor %}
+           </div>
+        {% endif %}
+
         <form method="POST">
             {% csrf_token %}
 
